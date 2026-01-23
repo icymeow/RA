@@ -1,0 +1,27 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Data / outputs
+out/
+*.xlsx
+*.csv
+*.jsonl
+*.log
+
+# Secrets
+cookie.txt

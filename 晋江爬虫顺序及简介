@@ -1,0 +1,45 @@
+把文件下载到本地之后先设置环境：
+
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+
+# 步骤一：抓取基础字段
+
+用jj_web_multi_year.py
+爬取 jjwxc 网站上指定年份范围内的基础数据，字段包括：
+作者、作品（带超链接）、类型、进度、字数、作品积分、发表时间
+保存为 JSONL 和 XLSX 文件
+
+# 如果想运行此脚本，可以参考以下命令行,示例的是2016年到2025年榜单前50页小说（一页100本）的爬取命令：
+'''
+python3 jj_web_multi_year.py \
+  --start-year 2016 \
+  --end-year 2025 \
+  --pages-per-year 50 \
+  --cookie "$(cat cookie.txt)"
+'''
+
+# 步骤二：抓取详细字段比如文案和内容标签
+
+用jjwxc_crawl_csvfirst.py
+从步骤一生成的总报告里里爬取“文案”“内容标签”“一句话简介”“立意”等字段，并生成csv
+
+# 如果想运行此脚本,直接输入 
+python jjwxc_crawl_csvfirst.py 
+
+如果需要中断爬虫，按CTRL+C即可，程序会保存当前进度，下次运行会从上次中断的地方继续爬取
+
+# 步骤三：生成内容标签和文章类型的Ngram表格,可以点开文件直接点右上角的播放键运行
+
+打开Ngram文件夹里的 Ngram_genre_analysis.py, 运行即可生成文章类型的Ngram分析xlsx表格
+打开Ngram文件夹里的 Ngram_tag_analysis.py, 运行即可生成内容标签的Ngram分析xlsx表格
+
+# 步骤四：生成streamlit可视化图表
+打开Ngram文件夹里的 Ngram_web.py, 运行即可生成streamlit可视化图表
+
+# 跑的时候在terminal里输入
+pip install streamlit plotly pandas openpyxl （如果按照requirements.txt弄好了就不用了）
+cd Ngram (移动到Ngram folder)
+streamlit run Ngram_webpage.py
