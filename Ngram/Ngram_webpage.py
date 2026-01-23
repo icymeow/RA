@@ -11,10 +11,29 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+from pathlib import Path
 
-# ===================== 默认路径（本地用时改成自己的路径） =====================
-DEFAULT_TAG_NG_XLSX = "/Users/xin/Desktop/RA/jjwxc_tag_ngram_analysis.xlsx"
-DEFAULT_GENRE_NG_XLSX = "/Users/xin/Desktop/RA/jjwxc_genre_ngram_analysis.xlsx"
+from pathlib import Path
+import streamlit as st
+import pandas as pd
+
+# 定位 repo 根目录：.../RA_jjwxc/
+ROOT = Path(__file__).resolve().parents[1]
+
+TAG_XLSX = ROOT / "jjwxc_tag_ngram_analysis.xlsx"
+GENRE_XLSX = ROOT / "jjwxc_genre_ngram_analysis.xlsx"
+
+def load_xlsx(path: Path, label: str) -> pd.DataFrame:
+    if not path.exists():
+        st.error(f"读取 {label} 失败：找不到文件：{path}")
+        st.write("当前目录文件：", [p.name for p in ROOT.iterdir()])
+        st.stop()
+    return pd.read_excel(path)
+
+
+# # ===================== 默认路径（本地用时改成自己的路径） =====================
+# DEFAULT_TAG_NG_XLSX = "/Users/xin/Desktop/RA/jjwxc_tag_ngram_analysis.xlsx"
+# DEFAULT_GENRE_NG_XLSX = "/Users/xin/Desktop/RA/jjwxc_genre_ngram_analysis.xlsx"
 
 APP_TITLE = "JJWXC Ngram Viewer (Tags + Genre)"
 
@@ -81,17 +100,37 @@ def normalize_ngram_df(df: pd.DataFrame, kind: str) -> pd.DataFrame:
     return df
 
 
+# @st.cache_data
+# def load_xlsx(path: str, kind: str) -> pd.DataFrame:
+#     df = pd.read_excel(path)
+#     return normalize_ngram_df(df, kind=kind)
 @st.cache_data
-def load_xlsx(path: str, kind: str) -> pd.DataFrame:
+def load_xlsx(path: Path, kind: str) -> pd.DataFrame:
+    if not path.exists():
+        st.error(f"找不到 {kind} 文件: {path}")
+        st.write("Repo files:", [p.name for p in ROOT.iterdir()])
+        st.stop()
     df = pd.read_excel(path)
     return normalize_ngram_df(df, kind=kind)
 
 
+
 # ===================== Sidebar：文件路径设置 =====================
+# with st.sidebar:
+#     st.header("数据源")
+#     tag_path = st.text_input("Tag Ngram XLSX 路径", value=DEFAULT_TAG_NG_XLSX)
+#     genre_path = st.text_input("Genre Ngram XLSX 路径", value=DEFAULT_GENRE_NG_XLSX)
+#     st.divider()
+
+#     st.header("通用过滤")
+#     min_total = st.slider("过滤：全时期总频次 ≥", 1, 200, 5)
+#     show_topk = st.checkbox("显示 Top-K（按年份）", value=True)
+#     topk = st.slider("Top-K", 3, 50, 15) if show_topk else 15
+
 with st.sidebar:
-    st.header("数据源")
-    tag_path = st.text_input("Tag Ngram XLSX 路径", value=DEFAULT_TAG_NG_XLSX)
-    genre_path = st.text_input("Genre Ngram XLSX 路径", value=DEFAULT_GENRE_NG_XLSX)
+    st.header("数据源（来自 GitHub 仓库）")
+    st.text(f"Tag: {TAG_XLSX.name}")
+    st.text(f"Genre: {GENRE_XLSX.name}")
     st.divider()
 
     st.header("通用过滤")
@@ -100,18 +139,33 @@ with st.sidebar:
     topk = st.slider("Top-K", 3, 50, 15) if show_topk else 15
 
 
+
 # ===================== 读取数据 =====================
+
 try:
-    tag_df = load_xlsx(tag_path, kind="tag")
+    tag_df = load_xlsx(TAG_XLSX, kind="tag")
 except Exception as e:
     st.error(f"读取 Tag Ngram 表失败：{repr(e)}")
     st.stop()
 
 try:
-    genre_df = load_xlsx(genre_path, kind="genre")
+    genre_df = load_xlsx(GENRE_XLSX, kind="genre")
 except Exception as e:
     st.error(f"读取 Genre Ngram 表失败：{repr(e)}")
     st.stop()
+
+
+# try:
+#     tag_df = load_xlsx(tag_path, kind="tag")
+# except Exception as e:
+#     st.error(f"读取 Tag Ngram 表失败：{repr(e)}")
+#     st.stop()
+
+# try:
+#     genre_df = load_xlsx(genre_path, kind="genre")
+# except Exception as e:
+#     st.error(f"读取 Genre Ngram 表失败：{repr(e)}")
+#     st.stop()
 
 
 # ===================== 辅助：构建可选项 =====================
