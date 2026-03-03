@@ -20,8 +20,8 @@ import pandas as pd
 # 定位 repo 根目录：.../RA_jjwxc/
 
 ROOT = Path(__file__).resolve().parent   # folder where app.py is
-TAG_XLSX = ROOT / "Ngram" / "jjwxc_tag_ngram_analysis.xlsx"
-GENRE_XLSX = ROOT / "Ngram" / "jjwxc_genre_ngram_analysis.xlsx"
+TAG_XLSX = ROOT / "jjwxc_tag_ngram_analysis.xlsx"
+GENRE_XLSX = ROOT / "jjwxc_genre_ngram_analysis.xlsx"
 
 def load_xlsx(path: Path, label: str) -> pd.DataFrame:
     if not path.exists():
