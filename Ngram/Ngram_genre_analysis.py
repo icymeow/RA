@@ -3,7 +3,7 @@ from collections import Counter
 from itertools import zip_longest
 # Ngram_genre_analysis.py
 # ================= CONFIG =================
-INPUT_CSV = "jjwxc_10yrs_withtags.csv"
+INPUT_CSV = "jjwxc_10yrs_withtags_by_year.csv"
 OUTPUT_XLSX = "jjwxc_genre_ngram_analysis.xlsx"
 
 MAX_N = 2   # 1=unigram, 2=bigram, 3=trigram (建议2)

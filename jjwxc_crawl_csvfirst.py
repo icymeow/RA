@@ -14,10 +14,12 @@ from tqdm import tqdm
 
 # ========= 配置 =========
 # 输入的总 XLSX 报告文件（由 jj_web_multi_year.py 生成）
-INPUT_XLSX = "jjwxc_2016_2025_all.xlsx"
+INPUT_XLSX = "jj_2024.xlsx"
+#INPUT_XLSX = "jjwxc_2016_2025_all.xlsx"
 
 # ✅ 运行中只写 CSV（append），最后再生成 xlsx（为了运行速度我只让这个文档生成csv）
-OUTPUT_CSV = "jjwxc_10yrs_withtags.csv"
+OUTPUT_CSV = "jjwxc_2024_withtags.csv"
+#OUTPUT_CSV = "jjwxc_10yrs_withtags.csv"
 #FINAL_XLSX = "jjwxc_10yrs_withtags.xlsx"
 
 #最佳休眠空隙必须 >= 0.2， 避免被封

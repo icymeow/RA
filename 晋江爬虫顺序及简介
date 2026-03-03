@@ -4,6 +4,7 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
+## 想看网页，在设置好环境后直接跳到步骤四
 
 # 步骤一：抓取基础字段
 

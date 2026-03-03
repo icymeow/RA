@@ -6,7 +6,7 @@ import pandas as pd
 from collections import Counter
 
 # ================== 配置 ==================
-INPUT_CSV = "jjwxc_10yrs_withtags.csv"
+INPUT_CSV = "jjwxc_10yrs_withtags_by_year.csv"
 OUTPUT_XLSX = "jjwxc_tag_ngram_analysis.xlsx"
 
 MAX_N = 2   # 1 = unigram, 2 = bigram
